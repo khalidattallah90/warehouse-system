@@ -5,7 +5,15 @@ require("./db/db");
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(
+  cors({
+    origin: [
+      "http://localhost:3000",
+      "https://warehouse-system.vercel.app", // ← رابط Vercel الخاص بك
+    ],
+    credentials: true,
+  }),
+);
 app.use(express.json());
 
 // كل الـ Routes
