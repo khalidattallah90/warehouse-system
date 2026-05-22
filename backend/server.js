@@ -27,6 +27,13 @@ app.use("/api", require("./routes/misc"));
 // اجعل مجلد uploads متاحاً كملفات ثابتة
 app.use("/uploads", express.static("uploads"));
 
+app.get("/", (req, res) => {
+  res.json({
+    success: true,
+    message: "🚀 الخادم يعمل بنجاح",
+  });
+});
+
 app.get("/api/health", (req, res) => {
   res.json({ message: "الخادم يعمل ✅" });
 });
