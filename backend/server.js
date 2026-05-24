@@ -4,12 +4,17 @@ const cors = require("cors");
 require("./db/db");
 
 const app = express();
+
+// CORS
 app.use(
   cors({
     origin: ["http://localhost:3000", /\.vercel\.app$/],
     credentials: true,
   }),
 );
+
+// دعم preflight requests
+app.options("*", cors());
 
 app.use(express.json());
 
@@ -20,6 +25,7 @@ app.use("/api/suppliers", require("./routes/suppliers"));
 app.use("/api/customers", require("./routes/customers"));
 app.use("/api/orders", require("./routes/orders"));
 app.use("/api", require("./routes/misc"));
+
 // اجعل مجلد uploads متاحاً كملفات ثابتة
 app.use("/uploads", express.static("uploads"));
 
@@ -35,10 +41,14 @@ app.get("/api/health", (req, res) => {
 });
 
 app.use((req, res) => {
-  res.status(404).json({ success: false, message: "المسار غير موجود" });
+  res.status(404).json({
+    success: false,
+    message: "المسار غير موجود",
+  });
 });
 
 const PORT = process.env.PORT || 5000;
+
 app.listen(PORT, () => {
   console.log(`🚀 الخادم يعمل على المنفذ ${PORT}`);
 });
